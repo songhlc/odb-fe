@@ -1,31 +1,96 @@
 <template>
   <listctn title="商品编辑">
     <span slot="content">
-      <bs-input :value.sync="input"
-                label="Username"
-                help="Only allows lowercase letters and numbers."
-                error="Insert username"
-                placeholder="Username can't start with a number."
-                pattern="^[a-z][a-z0-9]+$"
-                :mask="mask"
-                minlength="5"
-                readonly
+      <v-input :value.sync="good.name"
+                label="名称"
+                error="商品名称不能为空"
+                placeholder="请输入商品名称."
                 required
                 icon
-      ></bs-input>
-      </span>
+      ></v-input>
+      <v-input :value.sync="good.desc"
+               label="描述"
+               error="商品描述不能为空"
+               placeholder="请输入商品描述."
+               required
+               icon
+      ></v-input>
+      <v-input :value.sync="good.price"
+               label="总价"
+               error="Insert username"
+               placeholder="请输入商品总价."
+               required
+               icon
+      ></v-input>
+      <div><label class="control-label">专区</label></div>
+      <div class="form-group" >
+        <v-select :options.sync="select.options" :value.sync="good.area">
+        </v-select>
+      </div>
+      <div><label class="control-label">首次上线时间</label></div>
+      <datepicker class="form-group"
+        :value.sync="good.onlinedate"
+        format="yyyy-MM-dd"
+        :show-reset-button="reset">
+      </datepicker>
+      <v-input :value.sync="good.stock"
+               label="库存数量"
+               error="Insert username"
+               placeholder="请输入库存数量."
+               required
+               icon
+      ></v-input>
+      <div class="form-group">
+        <label for="isonline">是否在线</label>
+        <input id="isonline" type="checkbox" checked="good.isonline">
+      </div>
+      <file-upload name="myFile" title="首页图" id="myCustomId" class="form-group" action="upload.php"></file-upload>
+      <file-upload name="myFile" title="轮播图" id="myCustomId" class="form-group" action="upload.php"></file-upload>
+      <editor content="<div>test</div>"></editor content="<div>test</div>">
+
+    </span>
   </listctn>
 </template>
 <script>
 import listctn from '../../components/layout/listctn.vue'
-import {bsInput} from 'vue-strap'
+import { input, select, datepicker, checkboxBtn } from 'vue-strap'
+import fileUpload from '../../components/widgets/fileupload/fileupload.vue'
+import editor from 'vue-html5-editor'
+import Vue from 'vue'
 export default {
   components: {
-    bsInput,
-    listctn
+    listctn,
+    'v-input': input,
+    'v-select': select,
+    datepicker,
+    'v-checkbox': checkboxBtn,
+    fileUpload
   },
   ready () {
-    debugger
+    Vue.use(editor, {name: 'editor'})
+  },
+  methods: {
+    mask: function (value) {
+      // change to lowercase, remove first non-letter and all other unsupported characters
+      return value.toLowerCase().replace(/^[^a-z]+/, '').replace(/\W/g, '')
+    }
+  },
+  data () {
+    return {
+      select: {
+        options: [
+          {value: 1, label: '1元专区'}
+        ],
+        justified: true,
+        value: 1
+      },
+      good: {
+        area: 1,
+        onlinedate: '2010-01-01',
+        isonline: false
+
+      }
+    }
   }
 }
 </script>
