@@ -46,7 +46,11 @@
       </div>
       <file-upload name="myFile" title="首页图" id="myCustomId" class="form-group" action="upload.php"></file-upload>
       <file-upload name="myFile" title="轮播图" id="myCustomId" class="form-group" action="upload.php"></file-upload>
-      <editor content="<div>test</div>"></editor content="<div>test</div>">
+      <editor :content.sync="good.content"></editor>
+      <div class="form-group">
+        <div class="btn btn-primary">保存</div>
+        <div class="btn btn-default">取消</div>
+      </div>
 
     </span>
   </listctn>
@@ -57,6 +61,7 @@ import { input, select, datepicker, checkboxBtn } from 'vue-strap'
 import fileUpload from '../../components/widgets/fileupload/fileupload.vue'
 import editor from 'vue-html5-editor'
 import Vue from 'vue'
+Vue.use(editor, {name: 'editor'})
 export default {
   components: {
     listctn,
@@ -67,7 +72,7 @@ export default {
     fileUpload
   },
   ready () {
-    Vue.use(editor, {name: 'editor'})
+
   },
   methods: {
     mask: function (value) {
@@ -87,7 +92,8 @@ export default {
       good: {
         area: 1,
         onlinedate: '2010-01-01',
-        isonline: false
+        isonline: false,
+        content: '<div>test</div>'
 
       }
     }
